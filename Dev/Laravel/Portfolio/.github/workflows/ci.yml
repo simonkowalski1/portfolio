@@ -90,8 +90,7 @@ jobs:
             composer-${{ runner.os }}-php${{ matrix.php }}-
 
       - name: Install Composer dependencies
-        run: |
-          composer install --no-interaction --prefer-dist --no-progress
+        run: composer install --no-interaction --prefer-dist --no-progress
 
       - name: Prepare environment (.env and key)
         run: |
@@ -104,7 +103,6 @@ jobs:
           : > database/database.sqlite
           {
             echo "APP_ENV=testing"
-            echo "APP_KEY=${{ secrets.APP_KEY_TESTING || '' }}"
             echo "DB_CONNECTION=sqlite"
             echo "DB_DATABASE=${{ github.workspace }}/database/database.sqlite"
             echo "CACHE_DRIVER=array"
@@ -112,10 +110,19 @@ jobs:
             echo "SESSION_DRIVER=array"
           } > .env.testing
 
-      - name: Optimize config/routes (optional)
+      - name: Run migrations (testing DB)
+        run: php artisan migrate --env=testing --no-interaction --force
+
+      - name: Generate IDE helper annotations
         run: |
-          php artisan config:clear
-          php artisan route:list --quiet
+          php artisan ide-helper:generate
+          php artisan ide-helper:meta
+          php artisan ide-helper:models --write
+
+      - name: PHPStan (Larastan)
+        run: |
+          mkdir -p storage/phpstan
+          vendor/bin/phpstan analyse --no-progress --memory-limit=1G
 
       - name: Run PHP tests if present, otherwise lint PHP files
         shell: bash
