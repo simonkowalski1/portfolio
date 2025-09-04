@@ -1,0 +1,53 @@
+# OS / Editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Node
+node_modules/
+npm-debug.log*
+yarn.lock.tmp
+.pnpm-debug.log*
+
+# Vite (dev + build)
+public/hot
+public/build/
+
+# Jest / Coverage
+coverage/
+.jest-cache/
+.jest/
+
+# Laravel
+/vendor/
+.env
+.env.*.backup
+.phpunit.result.cache
+/storage/*
+!/storage/app/
+!/storage/app/public/
+!/storage/framework/
+!/storage/framework/cache/
+!/storage/framework/sessions/
+!/storage/framework/testing/
+!/storage/framework/views/
+!/storage/logs/
+
+# Logs
+*.log
+storage/*.log
+
+# Laravel Mix legacy (just in case)
+public/mix-manifest.json
+
+# PHPStan / IDE Helper
+storage/phpstan/
+phpstan-baseline.neon
+
+# Composer artifacts
+composer.phar
+
+# Misc
+*.local

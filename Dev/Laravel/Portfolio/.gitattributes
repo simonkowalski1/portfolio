@@ -1,0 +1,24 @@
+# Normalize line endings (consistent across OSes)
+* text=auto eol=lf
+
+# Treat images/binaries correctly
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+
+# Keep diffs readable for lock files
+composer.lock -diff
+
+# Mark vendor as vendored in GitHub linguist stats
+vendor/ linguist-vendored
+
+# Ignore test and CI files when creating release archives (optional)
+.github/ export-ignore
+resources/js/__tests__/ export-ignore
