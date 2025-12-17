@@ -1,0 +1,74 @@
+Portfolio (root)
++-- app
+¦   +-- Http
+¦   ¦   +-- Controllers
+¦   ¦       +-- Controller.php
+¦   +-- Models
+¦   ¦   +-- User.php
+¦   +-- Providers
+¦       +-- AppServiceProvider.php
++-- bootstrap
+¦   +-- app.php
+¦   +-- providers.php
++-- config
+¦   +-- app.php
+¦   +-- auth.php
+¦   +-- cache.php
+¦   +-- database.php
+¦   +-- filesystems.php
+¦   +-- logging.php
+¦   +-- mail.php
+¦   +-- queue.php
+¦   +-- services.php
+¦   +-- session.php
++-- database
+¦   +-- factories
+¦   ¦   +-- UserFactory.php
+¦   +-- migrations
+¦   ¦   +-- 0001_01_01_000000_create_users_table.php
+¦   ¦   +-- 0001_01_01_000001_create_cache_table.php
+¦   ¦   +-- 0001_01_01_000002_create_jobs_table.php
+¦   +-- seeders
+¦   ¦   +-- DatabaseSeeder.php
+¦   +-- .gitignore
+¦   +-- database.sqlite
++-- public
+¦   +-- .htaccess
+¦   +-- favicon.ico
+¦   +-- index.php
+¦   +-- robots.txt
++-- resources
+¦   +-- css
+¦   ¦   +-- app.css
+¦   +-- images
+¦   ¦   +-- coffee.png
+¦   +-- js
+¦   ¦   +-- app.js
+¦   ¦   +-- app.jsx
+¦   ¦   +-- bootstrap.js
+¦   ¦   +-- HomePreview.jsx
+¦   +-- views
+¦       +-- app.blade.php
++-- routes
+¦   +-- console.php
+¦   +-- web.php
++-- tests
+¦   +-- Feature
+¦   ¦   +-- ExampleTest.php
+¦   +-- Unit
+¦   ¦   +-- ExampleTest.php
+¦   +-- TestCase.php
++-- .editorconfig
++-- .env
++-- .env.example
++-- artisan
++-- composer.json
++-- composer.lock
++-- package.json
++-- package-lock.json
++-- phpunit.xml
++-- postcss.config.js
++-- project-tree.txt
++-- README.md
++-- tailwind.config.js
++-- vite.config.js
