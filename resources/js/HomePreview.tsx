@@ -1,8 +1,67 @@
-import React, { useEffect, useRef, useState } from 'react'
-import coffeeIcon from '../images/icons/coffee.png' // <-- your PNG
+import React, { useEffect, useRef, useState, SVGProps, MouseEvent, ChangeEvent, FormEvent } from 'react'
+import coffeeIcon from '../images/icons/coffee.png'
+
+// Type definitions
+interface TechColor {
+  bg: string
+  text: string
+}
+
+interface Project {
+  title: string
+  blurb: string
+  tags: string[]
+  github?: string
+  description: string
+  features?: string[]
+  image?: string
+  gallery?: string[]
+}
+
+interface Testimonial {
+  name: string
+  handle?: string
+  quote: string
+}
+
+interface BadgeProps {
+  children: React.ReactNode
+  color?: TechColor
+}
+
+interface SectionHeaderProps {
+  eyebrow: string
+  title: string
+}
+
+interface IconProps extends SVGProps<SVGSVGElement> {}
+
+interface FeatureChipProps {
+  icon: (props: IconProps) => JSX.Element
+  title: string
+  desc: string
+}
+
+interface SolutionGroupProps {
+  title: string
+  accent?: string
+  items: Array<{
+    icon: (props: IconProps) => JSX.Element
+    title: string
+    desc: string
+  }>
+  leadTime?: string
+  onBookCall: () => void
+  onViewPricing: () => void
+}
+
+interface MarqueeColumnProps {
+  items: Testimonial[]
+  reverse?: boolean
+}
 
 // Tech stack brand colors
-const TECH_COLORS = {
+const TECH_COLORS: Record<string, TechColor> = {
   Laravel: { bg: '#FF2D20', text: '#FFFFFF' },
   React: { bg: '#61DAFB', text: '#000000' },
   Blade: { bg: '#FF2D20', text: '#FFFFFF' },
@@ -11,8 +70,8 @@ const TECH_COLORS = {
   Vite: { bg: '#646CFF', text: '#FFFFFF' },
 }
 
-function Badge({ children, color }) {
-  const techColor = color || TECH_COLORS[children]
+function Badge({ children, color }: BadgeProps) {
+  const techColor = color || TECH_COLORS[children as string]
   const style = techColor
     ? {
         backgroundColor: techColor.bg,
@@ -32,65 +91,65 @@ function Badge({ children, color }) {
   )
 }
 
-function SectionHeader({ eyebrow, title }) {
+function SectionHeader({ eyebrow, title }: SectionHeaderProps) {
   return (
     <header className="mb-8 text-center">
       <p className="text-xs tracking-[0.2em] text-zinc-500">{eyebrow}</p>
       <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">{title}</h2>
     </header>
   )
-}  
+}
 
 // Simple, lightweight icons (inline SVG)
 const Icon = {
-  cart: (props) => (
+  cart: (props: IconProps) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" {...props}>
       <path strokeWidth="2" d="M6 6h15l-1.5 9h-12zM6 6l-2-2H2m6 16a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm8 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
     </svg>
   ),
-  credit: (props) => (
+  credit: (props: IconProps) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" {...props}>
       <rect x="2" y="5" width="20" height="14" rx="2" strokeWidth="2" />
       <path strokeWidth="2" d="M2 10h20" />
     </svg>
   ),
-  lock: (props) => (
+  lock: (props: IconProps) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" {...props}>
       <rect x="4" y="10" width="16" height="10" rx="2" strokeWidth="2" />
       <path strokeWidth="2" d="M8 10V7a4 4 0 0 1 8 0v3" />
     </svg>
   ),
-  shield: (props) => (
+  shield: (props: IconProps) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" {...props}>
       <path strokeWidth="2" d="M12 2l7 3v6c0 5-3.4 9.4-7 10-3.6-.6-7-5-7-10V5l7-3z" />
     </svg>
   ),
-  megaphone: (props) => (
+  megaphone: (props: IconProps) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" {...props}>
       <path strokeWidth="2" d="M3 11l14-5v12L3 13v-2z" />
       <path strokeWidth="2" d="M7 14v4a2 2 0 0 0 2 2h1" />
     </svg>
   ),
-  mail: (props) => (
+  mail: (props: IconProps) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" {...props}>
       <rect x="3" y="5" width="18" height="14" rx="2" strokeWidth="2" />
       <path strokeWidth="2" d="M3 7l9 6 9-6" />
     </svg>
   ),
-  chart: (props) => (
+  chart: (props: IconProps) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" {...props}>
       <path strokeWidth="2" d="M3 3v18h18" />
       <path strokeWidth="2" d="M7 15v-4M12 15V7M17 15v-2" />
     </svg>
   ),
-  bolt: (props) => (
+  bolt: (props: IconProps) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" {...props}>
       <path strokeWidth="2" d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" />
     </svg>
   ),
 }
 
-function FeatureChip({ icon: IconEl, title, desc }) {
+function FeatureChip({ icon: IconEl, title, desc }: FeatureChipProps) {
   return (
     <div className="flex items-start gap-3 rounded-xl border bg-white p-4 shadow-sm hover:shadow-md transition">
       <div className="mt-0.5 grid h-8 w-8 place-items-center rounded-md border text-zinc-900">
@@ -104,7 +163,7 @@ function FeatureChip({ icon: IconEl, title, desc }) {
   )
 }
 
-function SolutionGroup({ title, accent = '#0a0a0a', items, leadTime, onBookCall, onViewPricing }) {
+function SolutionGroup({ title, accent = '#0a0a0a', items, leadTime, onBookCall, onViewPricing }: SolutionGroupProps) {
   return (
     <section className="rounded-2xl border bg-white p-5">
       <div className="mb-4 flex items-center justify-between gap-3">
@@ -146,10 +205,10 @@ function SolutionGroup({ title, accent = '#0a0a0a', items, leadTime, onBookCall,
 }
 
 export default function HomePreview() {
-  const [selectedProject, setSelectedProject] = useState(null)
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  const projects = [
+  const projects: Project[] = [
     {
       title: "Heir Luxury",
       blurb: "E-commerce / Catalog",
@@ -197,13 +256,13 @@ export default function HomePreview() {
     },
   ]
 
-  const testimonials = [
+  const testimonials: Testimonial[] = [
     { name: "A. Rivera", handle: "Product Lead", quote: "Delivered ahead of schedule with excellent code quality." },
     { name: "M. Patel", handle: "Founder", quote: "Fantastic communicator with a sharp eye for UX details." },
-    { name: "Lam’aan", handle: "@lamaandesign", quote: "Love the work on this one. Signed up!" },
+    { name: "Lam'aan", handle: "@lamaandesign", quote: "Love the work on this one. Signed up!" },
     { name: "Brett", handle: "@thebtjackson", quote: "I like this a lot." },
     { name: "Alex Prokhorov", handle: "@alex_pro_dsg", quote: "Stunning. Exactly what I needed." },
-    { name: "Brian", handle: "@iambrianoconnor", quote: "It’s sooo good." },
+    { name: "Brian", handle: "@iambrianoconnor", quote: "It's sooo good." },
   ]
 
   const GITHUB_URL = 'https://github.com/simonkowalski1'
@@ -225,7 +284,7 @@ export default function HomePreview() {
   }, [])
 
   // Scrolling testimonial columns
-  const MarqueeColumn = ({ items, reverse }) => (
+  const MarqueeColumn = ({ items, reverse }: MarqueeColumnProps) => (
     <div className="relative h-[400px] overflow-hidden">
       <div className={`animate-marquee ${reverse ? 'reverse' : ''}`}>
         {items.concat(items).map((item, i) => (
@@ -256,13 +315,13 @@ export default function HomePreview() {
   const [copied, setCopied] = useState(false)
   const MAX_CHARS = 1500
 
-  const onMessageChange = (e) => {
+  const onMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const text = e.target.value
     setMessage(text)
     setCharCount(text.length)
   }
 
-  const openBookCall = (context) => {
+  const openBookCall = (context: string) => {
     setMessage(`Hi Simon — I'd like to book a call about ${context}. \n\nDetails:\n`)
     setCharCount(
       (`Hi Simon — I'd like to book a call about ${context}. \n\nDetails:\n`).length
@@ -270,7 +329,7 @@ export default function HomePreview() {
     setContactOpen(true)
   }
 
-  const handleSend = (e) => {
+  const handleSend = (e?: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>) => {
     e?.preventDefault?.()
     if (charCount === 0 || sending) return
     setSending(true)
@@ -285,9 +344,9 @@ export default function HomePreview() {
   }
 
   useEffect(() => {
-    const handler = (e) => {
+    const handler = (e: KeyboardEvent) => {
       if (contactOpen && e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-        handleSend(e)
+        handleSend()
       }
     }
     window.addEventListener('keydown', handler)
@@ -710,7 +769,7 @@ ${message}`
                   {selectedProject.gallery.length > 1 && (
                     <>
                       <button
-                        onClick={() => setCurrentImageIndex((currentImageIndex - 1 + selectedProject.gallery.length) % selectedProject.gallery.length)}
+                        onClick={() => setCurrentImageIndex((currentImageIndex - 1 + selectedProject.gallery!.length) % selectedProject.gallery!.length)}
                         className="absolute left-2 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full bg-white/90 border shadow-lg hover:bg-white transition"
                         aria-label="Previous image"
                       >
@@ -719,7 +778,7 @@ ${message}`
                         </svg>
                       </button>
                       <button
-                        onClick={() => setCurrentImageIndex((currentImageIndex + 1) % selectedProject.gallery.length)}
+                        onClick={() => setCurrentImageIndex((currentImageIndex + 1) % selectedProject.gallery!.length)}
                         className="absolute right-2 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full bg-white/90 border shadow-lg hover:bg-white transition"
                         aria-label="Next image"
                       >

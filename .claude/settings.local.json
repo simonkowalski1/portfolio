@@ -12,7 +12,10 @@
       "Bash(cat:*)",
       "Bash(php artisan:*)",
       "Bash(npm run build:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(del \"C:\\Users\\simon\\.claude-worktrees\\Portfolio\\xenodochial-greider\\vite.config.js\")",
+      "Bash(npm uninstall:*)",
+      "Bash(git worktree:*)"
     ]
   }
 }

@@ -1,5 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { ReactNode } from 'react'
+
+interface TooltipProps {
+  content: ReactNode
+  children: ReactNode
+  placement?: 'top'
+  id?: string
+}
 
 /**
  * Usage:
@@ -9,7 +15,7 @@ import PropTypes from 'prop-types'
  *
  * The visual styles live in app.css (classes: tooltip-group, tooltip, tooltip__arrow)
  */
-export default function Tooltip({ content, children, placement = 'top', id }) {
+export default function Tooltip({ content, children, placement = 'top', id }: TooltipProps) {
   const tooltipId = id || `tip-${Math.random().toString(36).slice(2, 8)}`
   const isTop = placement === 'top' // simple variant; could be extended later
 
@@ -22,11 +28,4 @@ export default function Tooltip({ content, children, placement = 'top', id }) {
       </span>
     </span>
   )
-}
-
-Tooltip.propTypes = {
-  content: PropTypes.node.isRequired,
-  children: PropTypes.node.isRequired,
-  placement: PropTypes.oneOf(['top']),
-  id: PropTypes.string,
 }

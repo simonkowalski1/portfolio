@@ -1,6 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import HomePreview from './HomePreview.jsx'
+import HomePreview from './HomePreview'
 import '../css/app.css'
 
 
